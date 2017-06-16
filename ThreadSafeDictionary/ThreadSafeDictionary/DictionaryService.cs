@@ -12,13 +12,18 @@ namespace ThreadSafeDictionary
 
         public Guid GetKeyByName(string keyName)
         {
-            if (_keys.ContainsKey(keyName))
-            {
-                return _keys[keyName];
-            }
+            Guid key = Guid.Empty;
 
-            Guid key = Guid.NewGuid();
-            _keys.Add(keyName, key);
+            if (keyName != null)
+            {
+                if (_keys.ContainsKey(keyName))
+                {
+                    return _keys[keyName];
+                }
+
+                key = Guid.NewGuid();
+                _keys.Add(keyName, key);
+            }
 
             return key;
         }
