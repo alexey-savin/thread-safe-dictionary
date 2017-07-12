@@ -16,13 +16,11 @@ namespace ThreadSafeDictionary
 
             if (keyName != null)
             {
-                if (_keys.ContainsKey(keyName))
+                if (!_keys.TryGetValue(keyName, out key))
                 {
-                    return _keys[keyName];
+                    key = Guid.NewGuid();
+                    _keys.Add(keyName, key);
                 }
-
-                key = Guid.NewGuid();
-                _keys.Add(keyName, key);
             }
 
             return key;
