@@ -6,9 +6,39 @@ using System.Threading.Tasks;
 
 namespace ThreadSafeDictionary
 {
-    public class DictionaryService
+    public class DictionaryService : IDisposable
     {
+        private bool _isDisposed = false;
+
         private Dictionary<string, Guid> _keys = new Dictionary<string, Guid>();
+
+        ~DictionaryService()
+        {
+            CleanUp(false);
+        }
+
+        public void Dispose()
+        {
+            CleanUp(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        private void CleanUp(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    // cleanup all managed resources
+                    Console.WriteLine("Disposing...");
+                }
+
+                // cleanup all unmanaged resources
+            }
+
+            _isDisposed = true;
+        }
 
         public Guid GetKeyByName(string keyName)
         {
